@@ -38,12 +38,27 @@ class UniMolRepr(object):
         self.model.eval()
         self.params = {"data_type": data_type, "remove_hs": remove_hs}
 
-    def get_sig4_coordinates(self, atoms, coordinates):
+    def get_sig4_coordinates(self, atoms: list[str], coordinates: list[list[float]]):
         datahub = DataHub(
             data={
                 "atoms": atoms,
                 "coordinates": coordinates,
             },  # Directly pass atoms and coordinates
+            task="inference",
+            is_train=False,
+            **self.params,
+        )
+
+        dataset = MolDataset(datahub.data["unimol_input"])
+        self.trainer = Trainer(task="inference")
+        sig4_output = self.trainer.inference_direct(self.model, dataset=dataset)
+        return sig4_output
+
+    def get_sig4_smiles(self, smiles_list: list[str] | str):
+        if isinstance(smiles_list, str):
+            smiles_list = [smiles_list]
+        datahub = DataHub(
+            data=smiles_list,
             task="inference",
             is_train=False,
             **self.params,

@@ -1,5 +1,3 @@
-from typing import List
-
 import numpy as np
 import numpy.typing as npt
 
@@ -11,7 +9,11 @@ class Signaturizer:
         self.model = UniMolRepr(data_type="finetuned", remove_hs=True)
 
     def infer_from_coordinates(
-        self, atoms: List[str], coordinates: List[List[int]]
+        self, atoms: list[str], coordinates: list[list[float]]
     ) -> npt.NDArray[np.float64]:  # (n, 128) dim array for n signatures
         sig_output = self.model.get_sig4_coordinates(atoms, coordinates)
+        return sig_output
+
+    def infer_from_smiles(self, smiles_list: list[str]) -> npt.NDArray[np.float64]:
+        sig_output = self.model.get_sig4_smiles(smiles_list)
         return sig_output
