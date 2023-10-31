@@ -3,7 +3,7 @@ import pytest
 from signaturizer3d.infer_signature import Signaturizer
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def signaturizer():
     return Signaturizer()
 
