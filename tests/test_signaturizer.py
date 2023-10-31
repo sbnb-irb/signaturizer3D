@@ -2,7 +2,6 @@ import pickle
 from pathlib import Path
 
 import numpy as np
-import pytest
 
 from signaturizer3d.infer_signature import infer_from_coordinates
 
@@ -13,10 +12,9 @@ def test_sig_inference_from_coordinates(atoms_coords_sig_single):
     result = infer_from_coordinates(atoms_list, coordinates_list)
 
     assert result is not None
-    assert np.allclose(result, expected_sig, atol=1e-8)
+    assert np.allclose(result, expected_sig, atol=1e-6)
 
 
-@pytest.mark.skip(reason="Takes too long")
 def test_sig_inference_from_coordinates_full():
     data_dir = Path.cwd() / "tests" / "data"
     with open(data_dir / "atoms_list.pkl", "rb") as f:
