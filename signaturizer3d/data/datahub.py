@@ -2,17 +2,6 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from __future__ import absolute_import, division, print_function
-
-import copy
-import csv
-import logging
-import os
-from collections import defaultdict
-from typing import List, Optional
-
-import numpy as np
-
 from .conformer import ConformerGen
 from .datareader import MolDataReader
 from .datascaler import TargetScaler
@@ -40,11 +29,11 @@ class DataHub(object):
             raise ValueError("Unknown task: {}".format(self.task))
 
         if "atoms" in self.data and "coordinates" in self.data:
-            no_h_list = ConformerGen(**params).transform_raw(
+            no_h_list = ConformerGen(**params).transform_coords(
                 self.data["atoms"], self.data["coordinates"]
             )
         else:
             smiles_list = self.data["smiles"]
-            no_h_list = ConformerGen(**params).transform(smiles_list)
+            no_h_list = ConformerGen(**params).transform_smiles(smiles_list)
 
         self.data["unimol_input"] = no_h_list
