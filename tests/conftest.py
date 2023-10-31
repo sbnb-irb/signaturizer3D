@@ -1,5 +1,12 @@
 import pytest
 
+from signaturizer3d.infer_signature import Signaturizer
+
+
+@pytest.fixture(scope="module")
+def signaturizer():
+    return Signaturizer()
+
 
 @pytest.fixture
 def atoms_coords_sig_single():

@@ -24,6 +24,8 @@ def test_sig_inference_from_coordinates_full():
     with open(data_dir / "expected_sig4_output.pkl", "rb") as f:
         expected_sigs = pickle.load(f)
 
-    result = infer_from_coordinates(atoms_list, coordinates_list)
+    result = signaturizer.infer_from_coordinates(atoms_list, coordinates_list)
 
+    assert result is not None
+    assert result.shape == (32, 128)
     assert np.allclose(result, expected_sigs, atol=1e-8)
