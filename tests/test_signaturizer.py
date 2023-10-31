@@ -10,6 +10,7 @@ def test_sig_inference_from_coordinates(signaturizer, atoms_coords_sig_single):
     result = signaturizer.infer_from_coordinates(atoms_list, coordinates_list)
 
     assert result is not None
+    assert result.dtype == np.float32
     assert result.shape == (1, 128)
     assert np.allclose(result, expected_sig, atol=1e-6)
 
@@ -31,10 +32,9 @@ def test_sig_inference_from_coordinates_full(signaturizer):
 
 
 def test_is_inference_repetables(signaturizer, atoms_coords_sig_single):
-    atoms_list, coordinates_list, expected_sig = atoms_coords_sig_single
+    atoms_list, coordinates_list, _ = atoms_coords_sig_single
 
     result1 = signaturizer.infer_from_coordinates(atoms_list, coordinates_list)
-
     result2 = signaturizer.infer_from_coordinates(atoms_list, coordinates_list)
 
     assert np.allclose(result1, result2)

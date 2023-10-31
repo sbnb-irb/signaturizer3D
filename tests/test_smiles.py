@@ -4,9 +4,9 @@ import pytest
 
 @pytest.fixture
 def signature_C():
-    # fmt: off
     smiles = "C"
     # Signature captured with A1 model loaded in unimol_tools
+    # fmt: off
     signature_c = np.array([[
         -0.09176869, -0.09230309, -0.09278876,  0.09095952,  0.02165126,
          0.09216648,  0.09049753, -0.09008787,  0.09142682,  0.09209616,
@@ -45,5 +45,6 @@ def test_infer_from_smiles(signaturizer, signature_C):
     result = signaturizer.infer_from_smiles(smiles_list)
 
     assert result is not None
+    assert result.dtype == np.float32
     assert result.shape == (1, 128)
     assert np.allclose(result, expected_sig)
