@@ -5,6 +5,7 @@
 from __future__ import absolute_import, division, print_function
 
 import argparse
+import logging
 import pathlib
 
 import torch
@@ -14,9 +15,11 @@ from signaturizer3d.unicore.dictionary import Dictionary
 from signaturizer3d.unicore.transformer_encoder import init_bert_params
 from signaturizer3d.unicore.unicore_model import BaseUnicoreModel
 from signaturizer3d.unicore.utils import get_activation_fn
-from signaturizer3d.utils import logger, pad_1d_tokens, pad_2d, pad_coords
+from signaturizer3d.utils import pad_1d_tokens, pad_2d, pad_coords
 
 from .transformers import TransformerEncoderWithPair
+
+logger = logging.getLogger(__name__)
 
 BACKBONE = {
     "transformer": TransformerEncoderWithPair,
@@ -81,7 +84,6 @@ class UniMolModel(BaseUnicoreModel):
             raise ValueError("Current not support data type: {}".format(data_type))
 
         self.apply(init_bert_params)
-        print(f"Loading model at {self.pretrain_path}")
         self.load_pretrained_weights(path=self.pretrain_path)
 
     def load_pretrained_weights(self, path):
