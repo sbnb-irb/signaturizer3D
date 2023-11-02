@@ -1,1 +1,3 @@
-from .nnmodel import NNModel, UniMolModel
+from .unimol import UniMolModel
+
+__all__ = ["UniMolModel"]

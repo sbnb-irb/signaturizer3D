@@ -15,7 +15,7 @@ from signaturizer3d.unicore.dictionary import Dictionary
 from signaturizer3d.unicore.transformer_encoder import init_bert_params
 from signaturizer3d.unicore.unicore_model import BaseUnicoreModel
 from signaturizer3d.unicore.utils import get_activation_fn
-from signaturizer3d.utils import pad_1d_tokens, pad_2d, pad_coords
+from signaturizer3d.pad import pad_1d_tokens, pad_2d, pad_coords
 
 from .transformers import TransformerEncoderWithPair
 
