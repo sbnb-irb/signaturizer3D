@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from signaturizer3d.data.convert import generate_conformations, validate_smiles
+from signaturizer3d.data.smiles import generate_conformations, validate_smiles
 
 
 def test_validate_smiles_filters_invalid():
