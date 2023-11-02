@@ -9,7 +9,6 @@ Base classes for various unicore models.
 
 import logging
 
-import torch
 import torch.nn as nn
 
 logger = logging.getLogger(__name__)
@@ -39,7 +38,6 @@ class BaseUnicoreModel(nn.Module):
         self,
         state_dict,
         strict=True,
-        model_args = None,
     ):
         """Copies parameters and buffers from *state_dict* into this module and
         its descendants.
