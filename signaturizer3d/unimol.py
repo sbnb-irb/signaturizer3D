@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-from signaturizer3d.data import DataHub
+from signaturizer3d.data.unimol import coordinates_list_to_unimol, smiles_to_unimol
 from signaturizer3d.models import UniMolModel
 from signaturizer3d.tasks import Trainer
 
@@ -38,16 +38,11 @@ class UniMolRepr(object):
         self.model.eval()
         self.params = {"data_type": data_type, "remove_hs": remove_hs}
 
-    def get_sig4_coordinates(self, atoms: list[str], coordinates: list[list[float]]):
-        datahub = DataHub(
-            data={
-                "atoms": atoms,
-                "coordinates": coordinates,
-            },
-            **self.params,
-        )
-
-        dataset = MolDataset(datahub.data["unimol_input"])
+    def get_sig4_coordinates(
+        self, atoms: list[list[str]], coordinates: list[list[list[float]]]
+    ):
+        unimol_input = coordinates_list_to_unimol(atoms, coordinates)
+        dataset = MolDataset(unimol_input)
         self.trainer = Trainer(task="inference")
         sig4_output = self.trainer.inference_direct(self.model, dataset=dataset)
         return sig4_output
@@ -55,12 +50,8 @@ class UniMolRepr(object):
     def get_sig4_smiles(self, smiles_list: list[str] | str):
         if isinstance(smiles_list, str):
             smiles_list = [smiles_list]
-        datahub = DataHub(
-            data=smiles_list,
-            **self.params,
-        )
-
-        dataset = MolDataset(datahub.data["unimol_input"])
+        unimol_input = smiles_to_unimol(smiles_list)
+        dataset = MolDataset(unimol_input)
         self.trainer = Trainer(task="inference")
         sig4_output = self.trainer.inference_direct(self.model, dataset=dataset)
         return sig4_output

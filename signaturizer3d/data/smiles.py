@@ -1,20 +1,16 @@
 import logging
-import pathlib
 from multiprocessing import Pool
 
 import numpy as np
 import numpy.typing as npt
 from rdkit import Chem
 from rdkit.Chem import AllChem
-from scipy.spatial import distance_matrix
 from tqdm import tqdm
 
-from signaturizer3d.unicore.dictionary import Dictionary
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-DICT_PATH = pathlib.Path(__file__).resolve().parents[2] / "weights" / "dict.txt"
 
 
 def validate_smiles(smiles_list: list[str]) -> list[str]:
@@ -98,3 +94,4 @@ def generate_conformations(
     coordinates_list = [coords for _, coords in conformers]
 
     return atoms_list, coordinates_list
+
