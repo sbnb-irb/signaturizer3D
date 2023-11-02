@@ -1,8 +1,31 @@
+import pathlib
 import pickle
 
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
+
+WEIGHTS_PATH = pathlib.Path(__file__).resolve().parents[1] / "weights"
+
+
+def normalize_output_for_space(raw_outputs: torch.Tensor, space: str) -> torch.Tensor:
+    means = pickle.load(
+        open(
+            WEIGHTS_PATH / "space_means.pkl",
+            "rb",
+        )
+    )
+    stds = pickle.load(
+        open(
+            WEIGHTS_PATH / "space_stds.pkl",
+            "rb",
+        )
+    )
+
+    space_mean = torch.tensor(means[space], device=raw_outputs.device)
+    space_std = torch.tensor(stds[space], device=raw_outputs.device)
+    normalized_output = raw_outputs * space_std + space_mean
+    return normalized_output
 
 
 def run_inference(model, dataset, device, batch_size=32):
@@ -16,32 +39,13 @@ def run_inference(model, dataset, device, batch_size=32):
         drop_last=False,
     )
     model = model.eval()
-    raw_outputs_list = []  # A list to collect raw model outputs
+    raw_outputs_list = []
     for batch in dataloader:
-        input_data, _ = batch  # No target for inference
-        input_data = {
-            k: v.to(device) for k, v in input_data.items()
-        }  # Move tensors to device
+        input_data, _ = batch
+        input_data = {k: v.to(device) for k, v in input_data.items()}
         with torch.no_grad():
             raw_outputs = model(**input_data, features_only=True)
-            # normalize for A1 std and mean
-            means = pickle.load(
-                open(
-                    "/aloy/home/alenes/playgrnd/Uni-Mol/unimol/notebooks/signaturizers/means.pkl",
-                    "rb",
-                )
-            )
-            stds = pickle.load(
-                open(
-                    "/aloy/home/alenes/playgrnd/Uni-Mol/unimol/notebooks/signaturizers/stds.pkl",
-                    "rb",
-                )
-            )
-
-            mean = torch.tensor(means["A1"], device=raw_outputs.device)
-            std = torch.tensor(stds["A1"], device=raw_outputs.device)
-            normalized_output = raw_outputs * std + mean
-
+            normalized_output = normalize_output_for_space(raw_outputs, space="A1")
             raw_outputs_list.append(normalized_output.cpu().numpy())
 
     raw_outputs_array = np.concatenate(raw_outputs_list, axis=0)
