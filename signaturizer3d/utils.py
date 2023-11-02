@@ -2,7 +2,6 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from hashlib import md5
 
 def pad_1d_tokens(
     values,
@@ -10,7 +9,7 @@ def pad_1d_tokens(
     left_pad=False,
     pad_to_length=None,
     pad_to_multiple=1,
-    ):
+):
     """Convert a list of 1d tensors into a padded 2d tensor."""
     size = max(v.size(0) for v in values)
     size = size if pad_to_length is None else max(size, pad_to_length)
@@ -26,13 +25,14 @@ def pad_1d_tokens(
         copy_tensor(v, res[i][size - len(v) :] if left_pad else res[i][: len(v)])
     return res
 
+
 def pad_2d(
     values,
     pad_idx,
     left_pad=False,
     pad_to_length=None,
     pad_to_multiple=1,
-    ):
+):
     """Convert a list of 1d tensors into a padded 2d tensor."""
     size = max(v.size(0) for v in values)
     size = size if pad_to_length is None else max(size, pad_to_length)
@@ -45,8 +45,14 @@ def pad_2d(
         dst.copy_(src)
 
     for i, v in enumerate(values):
-        copy_tensor(v, res[i][size - len(v) :, size - len(v) :] if left_pad else res[i][: len(v), : len(v)])
+        copy_tensor(
+            v,
+            res[i][size - len(v) :, size - len(v) :]
+            if left_pad
+            else res[i][: len(v), : len(v)],
+        )
     return res
+
 
 def pad_coords(
     values,
@@ -54,7 +60,7 @@ def pad_coords(
     left_pad=False,
     pad_to_length=None,
     pad_to_multiple=1,
-    ):
+):
     """Convert a list of 1d tensors into a padded 2d tensor."""
     size = max(v.size(0) for v in values)
     size = size if pad_to_length is None else max(size, pad_to_length)
@@ -67,5 +73,5 @@ def pad_coords(
         dst.copy_(src)
 
     for i, v in enumerate(values):
-        copy_tensor(v, res[i][size - len(v) :, :] if left_pad else res[i][: len(v),:])
+        copy_tensor(v, res[i][size - len(v) :, :] if left_pad else res[i][: len(v), :])
     return res
