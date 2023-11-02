@@ -4,29 +4,11 @@
 
 from .conformer import ConformerGen
 from .datareader import MolDataReader
-from .datascaler import TargetScaler
 
 
 class DataHub(object):
-    def __init__(self, data=None, is_train=True, save_path=None, **params):
-        self.data = data
-        self.is_train = is_train
-        self.save_path = save_path
-        self.task = params.get("task", None)
-        self.target_cols = params.get("target_cols", None)
-        self.multiclass_cnt = params.get("multiclass_cnt", None)
-        self.ss_method = params.get("target_normalize", "none")
-        self._init_data(**params)
-
-    def _init_data(self, **params):
-        self.data = MolDataReader().read_data(self.data, self.is_train, **params)
-        self.data["target_scaler"] = TargetScaler(
-            self.ss_method, self.task, self.save_path
-        )
-        if self.task == "inference":
-            self.data["target"] = None  # No targets for inference
-        else:
-            raise ValueError("Unknown task: {}".format(self.task))
+    def __init__(self, data=None, **params):
+        self.data = MolDataReader().read_data(data, **params)
 
         if "atoms" in self.data and "coordinates" in self.data:
             no_h_list = ConformerGen(**params).transform_coords(

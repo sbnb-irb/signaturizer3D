@@ -43,9 +43,7 @@ class UniMolRepr(object):
             data={
                 "atoms": atoms,
                 "coordinates": coordinates,
-            },  # Directly pass atoms and coordinates
-            task="inference",
-            is_train=False,
+            },
             **self.params,
         )
 
@@ -59,8 +57,6 @@ class UniMolRepr(object):
             smiles_list = [smiles_list]
         datahub = DataHub(
             data=smiles_list,
-            task="inference",
-            is_train=False,
             **self.params,
         )
 
