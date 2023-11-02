@@ -2,11 +2,6 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from __future__ import absolute_import, division, print_function
-
-import os
-import pathlib
-
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -16,9 +11,8 @@ from ..utils import logger
 
 
 class MolDataReader(object):
-    def read_data(self, data=None, is_train=True, **params):
+    def read_data(self, data=None, **params):
         smiles_col = params.get("smiles_col", "SMILES")
-        smi_strict = params.get("smi_strict", False)
 
         if isinstance(data, dict):
             # load from dict
@@ -35,10 +29,14 @@ class MolDataReader(object):
             "raw_data": data,
         }
         if smiles_col in data.columns:
-            mask = data[smiles_col].apply(
-                lambda smi: self.check_smiles(smi, is_train, smi_strict)
+            valid_smiles = data[smiles_col].apply(
+                lambda smi: True if Chem.MolFromSmiles(smi) is not None else False
             )
-            data = data[mask]
+            if not valid_smiles.all():
+                invalid_smiles = data.loc[~valid_smiles, smiles_col]
+                logger.warning(f"Invalid SMILES strings: {invalid_smiles.tolist()}")
+
+            data = data[valid_smiles]
             dd["smiles"] = data[
                 smiles_col
             ].tolist()  # unsure if we need this, my guess is it is for training and splittin purposes
@@ -52,15 +50,6 @@ class MolDataReader(object):
             dd["coordinates"] = data["coordinates"].tolist()
 
         return dd
-
-    def check_smiles(self, smi, is_train, smi_strict):
-        if Chem.MolFromSmiles(smi) is None:
-            if is_train and not smi_strict:
-                logger.info(f"Illegal SMILES clean: {smi}")
-                return False
-            else:
-                raise ValueError(f"SMILES rule is illegal: {smi}")
-        return True
 
     def smi2scaffold(self, smi):
         try:
