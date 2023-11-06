@@ -1,12 +1,12 @@
 import numpy as np
 import numpy.typing as npt
 
-from signaturizer3d.unimol import UniMolRepr
+from signaturizer3d.unimol import FineTunedUniMol
 
 
 class Signaturizer:
     def __init__(self):
-        self.model = UniMolRepr(data_type="finetuned", remove_hs=True)
+        self.model = FineTunedUniMol(remove_hs=True)
 
     def infer_from_coordinates(
         self, atoms: list[str], coordinates: list[list[float]]

@@ -19,7 +19,7 @@ class MolDataset(Dataset):
         return len(self.data)
 
 
-class UniMolRepr(object):
+class FineTunedUniMol(object):
     def __init__(
         self,
         remove_hs=False,
