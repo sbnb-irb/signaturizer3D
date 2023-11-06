@@ -47,7 +47,9 @@ class FineTunedUniMol(object):
     def get_sig4_coordinates(
         self, atoms: list[list[str]], coordinates: list[list[list[float]]]
     ):
-        unimol_input = coordinates_list_to_unimol(atoms, coordinates)
+        unimol_input = coordinates_list_to_unimol(
+            atoms, coordinates, self.model.dictionary
+        )
         dataset = MolDataset(unimol_input)
         sig4_output = run_inference(self.model, dataset=dataset, device=self.device)
         return sig4_output
@@ -55,7 +57,7 @@ class FineTunedUniMol(object):
     def get_sig4_smiles(self, smiles_list: list[str] | str):
         if isinstance(smiles_list, str):
             smiles_list = [smiles_list]
-        unimol_input = smiles_to_unimol(smiles_list)
+        unimol_input = smiles_to_unimol(smiles_list, self.model.dictionary)
         dataset = MolDataset(unimol_input)
         sig4_output = run_inference(self.model, dataset=dataset, device=self.device)
         return sig4_output
