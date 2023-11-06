@@ -23,13 +23,20 @@ class MolDataset(Dataset):
 class FineTunedUniMol(object):
     def __init__(
         self,
-        remove_hs=False,
-        use_gpu=True,
+        space: CCSpace,
+        remove_hs: bool = False,
+        use_gpu: bool = True,
     ):
+        self.space = space
         self.device = torch.device(
             "cuda:0" if torch.cuda.is_available() and use_gpu else "cpu"
         )
+
+        model_file_name = f"mol_CC_{self.space.value}_split0.pt"
+
         self.model = UniMolModel(
+            model_file_name=model_file_name,
+            classification_head_name=self.space.value,
             output_dim=128,
             remove_hs=remove_hs,
         ).to(self.device)

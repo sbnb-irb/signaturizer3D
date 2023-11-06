@@ -17,7 +17,7 @@ class Signaturizer:
         self.space = space
 
         # Signaturizers models are fine tuned from the non-hydrogen UniMol model
-        self.model = FineTunedUniMol(remove_hs=True)
+        self.model = FineTunedUniMol(space=self.space, remove_hs=True)
 
     def infer_from_coordinates(
         self, atoms: list[str], coordinates: list[list[float]]
