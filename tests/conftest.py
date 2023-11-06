@@ -1,11 +1,12 @@
 import pytest
 
 from signaturizer3d.infer_signature import Signaturizer
+from signaturizer3d.types import CCSpace
 
 
 @pytest.fixture(scope="session")
 def signaturizer():
-    return Signaturizer()
+    return Signaturizer(space=CCSpace.A1)
 
 
 @pytest.fixture

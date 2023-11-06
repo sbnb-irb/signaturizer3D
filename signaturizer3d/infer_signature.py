@@ -1,11 +1,22 @@
 import numpy as np
 import numpy.typing as npt
 
+from signaturizer3d.types import CCSpace
 from signaturizer3d.unimol import FineTunedUniMol
 
 
 class Signaturizer:
-    def __init__(self):
+    def __init__(self, space: CCSpace):
+        if isinstance(space, str):
+            try:
+                space = CCSpace[space]
+            except KeyError:
+                raise ValueError(
+                    f"{space} is not a valid CCSpace. Valid spaces are A1 ... E5, see the CCSpace enum."
+                )
+        self.space = space
+
+        # Signaturizers models are fine tuned from the non-hydrogen UniMol model
         self.model = FineTunedUniMol(remove_hs=True)
 
     def infer_from_coordinates(
