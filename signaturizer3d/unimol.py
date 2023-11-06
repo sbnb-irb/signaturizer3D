@@ -22,7 +22,6 @@ class MolDataset(Dataset):
 class UniMolRepr(object):
     def __init__(
         self,
-        data_type="molecule",
         remove_hs=False,
         use_gpu=True,
     ):
@@ -30,13 +29,12 @@ class UniMolRepr(object):
             "cuda:0" if torch.cuda.is_available() and use_gpu else "cpu"
         )
         self.model = UniMolModel(
-            output_dim=128 if data_type == "finetuned" else 1,
-            data_type=data_type,
+            output_dim=128,
             remove_hs=remove_hs,
         ).to(self.device)
 
         self.model.eval()
-        self.params = {"data_type": data_type, "remove_hs": remove_hs}
+        self.params = {"remove_hs": remove_hs}
 
     def get_sig4_coordinates(
         self, atoms: list[list[str]], coordinates: list[list[list[float]]]
