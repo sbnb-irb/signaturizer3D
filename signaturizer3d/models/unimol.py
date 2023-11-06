@@ -11,11 +11,11 @@ import pathlib
 import torch
 import torch.nn as nn
 
+from signaturizer3d.pad import pad_1d_tokens, pad_2d, pad_coords
 from signaturizer3d.unicore.dictionary import Dictionary
 from signaturizer3d.unicore.transformer_encoder import init_bert_params
 from signaturizer3d.unicore.unicore_model import BaseUnicoreModel
 from signaturizer3d.unicore.utils import get_activation_fn
-from signaturizer3d.pad import pad_1d_tokens, pad_2d, pad_coords
 
 from .transformers import TransformerEncoderWithPair
 
@@ -29,15 +29,11 @@ WEIGHT_DIR = pathlib.Path(__file__).resolve().parents[2] / "weights"
 
 
 class UniMolModel(BaseUnicoreModel):
-    def __init__(self, output_dim=2, data_type="molecule", **params):
+    def __init__(self, output_dim=2, **params):
         super().__init__()
-        if data_type == "finetuned":
-            self.args = finetuned_architecture()
-        else:
-            raise ValueError("Current not support data type: {}".format(data_type))
+        self.args = finetuned_architecture()
 
         self.output_dim = output_dim
-        self.data_type = data_type
         self.remove_hs = params.get("remove_hs", False)
 
         self.pretrain_path = (WEIGHT_DIR / "mol_CC_A1_split0.pt").as_posix()
@@ -71,17 +67,14 @@ class UniMolModel(BaseUnicoreModel):
         else:
             raise ValueError("Current not support kernel: {}".format(self.args.kernel))
 
-        if data_type == "finetuned":
-            self.classification_heads = nn.ModuleDict()
-            self.classification_heads["A1"] = ClassificationHead(
-                input_dim=self.args.encoder_embed_dim,
-                inner_dim=self.args.encoder_embed_dim,
-                num_classes=self.output_dim,
-                activation_fn=self.args.pooler_activation_fn,
-                pooler_dropout=self.args.pooler_dropout,
-            )
-        else:
-            raise ValueError("Current not support data type: {}".format(data_type))
+        self.classification_heads = nn.ModuleDict()
+        self.classification_heads["A1"] = ClassificationHead(
+            input_dim=self.args.encoder_embed_dim,
+            inner_dim=self.args.encoder_embed_dim,
+            num_classes=self.output_dim,
+            activation_fn=self.args.pooler_activation_fn,
+            pooler_dropout=self.args.pooler_dropout,
+        )
 
         self.apply(init_bert_params)
         self.load_pretrained_weights(path=self.pretrain_path)
@@ -145,10 +138,7 @@ class UniMolModel(BaseUnicoreModel):
             atomic_repr = encoder_rep[i, 1 : lengths[i] + 1, :]
             cls_atomic_reprs.append(atomic_repr)
 
-        if self.data_type == "finetuned":
-            logits = self.classification_heads["A1"](cls_repr)
-        else:
-            raise ValueError("Current not support data type: {}".format(self.data_type))
+        logits = self.classification_heads["A1"](cls_repr)
 
         return logits
 
