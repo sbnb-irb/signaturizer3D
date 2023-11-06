@@ -9,7 +9,11 @@ from signaturizer3d.unicore.dictionary import Dictionary
 
 @pytest.fixture
 def dictionary():
-    DICT_PATH = pathlib.Path(__file__).resolve().parents[1] / "weights" / "dict.txt"
+    DICT_PATH = (
+        pathlib.Path(__file__).resolve().parents[1]
+        / "signaturizer3d/models/"
+        / "dict.txt"
+    )
     dictionary = Dictionary.load(DICT_PATH.as_posix())
     dictionary.add_symbol("[MASK]", is_special=True)
     return dictionary

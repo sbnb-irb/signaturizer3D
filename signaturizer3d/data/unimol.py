@@ -1,13 +1,9 @@
-import pathlib
-
 import numpy as np
 import numpy.typing as npt
 from scipy.spatial import distance_matrix
 
 from signaturizer3d.data.smiles import generate_conformations, validate_smiles
 from signaturizer3d.unicore.dictionary import Dictionary
-
-DICT_PATH = pathlib.Path(__file__).resolve().parents[2] / "weights" / "dict.txt"
 
 
 def coordinates_to_unimol(
@@ -74,10 +70,8 @@ def coordinates_to_unimol(
 def coordinates_list_to_unimol(
     atoms_list: list[list[str]],
     coordinates_list: list[list[list[float]]],
+    dictionary: Dictionary,
 ) -> list[dict]:
-    dictionary = Dictionary.load(DICT_PATH.as_posix())
-    dictionary.add_symbol("[MASK]", is_special=True)
-
     assert (
         len(dictionary) == 31
     ), "Dictionary length was 31 in unimol_tools and shoul be here too"
@@ -92,8 +86,8 @@ def coordinates_list_to_unimol(
     return unimol_input
 
 
-def smiles_to_unimol(smiles_list: list[str]) -> list[dict]:
+def smiles_to_unimol(smiles_list: list[str], dictionary: Dictionary) -> list[dict]:
     valid_smiles = validate_smiles(smiles_list)
     atoms_list, coordinates_list = generate_conformations(valid_smiles)
-    unimol_input = coordinates_list_to_unimol(atoms_list, coordinates_list)  # type: ignore
+    unimol_input = coordinates_list_to_unimol(atoms_list, coordinates_list, dictionary)  # type: ignore
     return unimol_input

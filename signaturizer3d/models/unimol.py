@@ -45,7 +45,8 @@ class UniMolModel(BaseUnicoreModel):
         self.output_dim = output_dim
 
         self.pretrain_path = (WEIGHT_DIR / self.model_file_name).as_posix()
-        self.dictionary = Dictionary.load((WEIGHT_DIR / "dict.txt").as_posix())
+        current_dir = pathlib.Path(__file__).resolve().parents[0]
+        self.dictionary = Dictionary.load((current_dir / "dict.txt").as_posix())
 
         self.mask_idx = self.dictionary.add_symbol("[MASK]", is_special=True)
         self.padding_idx = self.dictionary.pad()
