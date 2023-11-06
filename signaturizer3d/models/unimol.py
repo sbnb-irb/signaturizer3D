@@ -29,14 +29,22 @@ WEIGHT_DIR = pathlib.Path(__file__).resolve().parents[2] / "weights"
 
 
 class UniMolModel(BaseUnicoreModel):
-    def __init__(self, output_dim=2, **params):
+    def __init__(
+        self,
+        model_file_name: str,
+        classification_head_name: str,
+        remove_hs: bool,
+        output_dim: int,
+    ):
         super().__init__()
         self.args = finetuned_architecture()
 
+        self.model_file_name = model_file_name
+        self.classification_head_name = classification_head_name
+        self.remove_hs = remove_hs
         self.output_dim = output_dim
-        self.remove_hs = params.get("remove_hs", False)
 
-        self.pretrain_path = (WEIGHT_DIR / "mol_CC_A1_split0.pt").as_posix()
+        self.pretrain_path = (WEIGHT_DIR / self.model_file_name).as_posix()
         self.dictionary = Dictionary.load((WEIGHT_DIR / "dict.txt").as_posix())
 
         self.mask_idx = self.dictionary.add_symbol("[MASK]", is_special=True)
@@ -68,7 +76,7 @@ class UniMolModel(BaseUnicoreModel):
             raise ValueError("Current not support kernel: {}".format(self.args.kernel))
 
         self.classification_heads = nn.ModuleDict()
-        self.classification_heads["A1"] = ClassificationHead(
+        self.classification_heads[self.classification_head_name] = ClassificationHead(
             input_dim=self.args.encoder_embed_dim,
             inner_dim=self.args.encoder_embed_dim,
             num_classes=self.output_dim,
@@ -138,7 +146,7 @@ class UniMolModel(BaseUnicoreModel):
             atomic_repr = encoder_rep[i, 1 : lengths[i] + 1, :]
             cls_atomic_reprs.append(atomic_repr)
 
-        logits = self.classification_heads["A1"](cls_repr)
+        logits = self.classification_heads[self.classification_head_name](cls_repr)
 
         return logits
 
