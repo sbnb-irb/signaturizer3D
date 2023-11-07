@@ -25,7 +25,7 @@ def test_sig_inference_from_coordinates_full(signaturizer):
         atoms_list = pickle.load(f)
     with open(data_dir / "coordinates_list.pkl", "rb") as f:
         coordinates_list = pickle.load(f)
-    with open(data_dir / "expected_sig4_output.pkl", "rb") as f:
+    with open(data_dir / "expected_sig4_output_A1.pkl", "rb") as f:
         expected_sigs = pickle.load(f)
 
     result = signaturizer.infer_from_coordinates(atoms_list, coordinates_list)
