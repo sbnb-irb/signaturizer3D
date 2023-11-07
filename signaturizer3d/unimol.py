@@ -26,16 +26,25 @@ class FineTunedUniMol(object):
         space: CCSpace,
         remove_hs: bool = False,
         use_gpu: bool = True,
+        use_local_weights: bool = False,
     ):
         self.space = space
         self.device = torch.device(
             "cuda:0" if torch.cuda.is_available() and use_gpu else "cpu"
         )
 
-        model_file_name = f"mol_CC_{self.space.value}_split0.pt"
+        model_file_name, model_file_url = None, None
+        if use_local_weights:
+            model_file_name = f"{self.space.value}_split0.pt"
+        else:
+            model_file_url = (
+                "https://github.com/aksell/test-pytorch-modelhub/releases/download/full-CC/"
+                + f"{self.space.value}_split0.pt"
+            )
 
         self.model = UniMolModel(
             model_file_name=model_file_name,
+            model_file_URL=model_file_url,
             classification_head_name=self.space.value,
             output_dim=128,
             remove_hs=remove_hs,
@@ -51,7 +60,9 @@ class FineTunedUniMol(object):
             atoms, coordinates, self.model.dictionary
         )
         dataset = MolDataset(unimol_input)
-        sig4_output = run_inference(self.model, dataset=dataset, device=self.device)
+        sig4_output = run_inference(
+            self.model, space=self.space, dataset=dataset, device=self.device
+        )
         return sig4_output
 
     def get_sig4_smiles(self, smiles_list: list[str] | str):
@@ -59,5 +70,7 @@ class FineTunedUniMol(object):
             smiles_list = [smiles_list]
         unimol_input = smiles_to_unimol(smiles_list, self.model.dictionary)
         dataset = MolDataset(unimol_input)
-        sig4_output = run_inference(self.model, dataset=dataset, device=self.device)
+        sig4_output = run_inference(
+            self.model, space=self.space, dataset=dataset, device=self.device
+        )
         return sig4_output

@@ -31,10 +31,11 @@ WEIGHT_DIR = pathlib.Path(__file__).resolve().parents[2] / "weights"
 class UniMolModel(BaseUnicoreModel):
     def __init__(
         self,
-        model_file_name: str,
         classification_head_name: str,
         remove_hs: bool,
         output_dim: int,
+        model_file_name: str = None,
+        model_file_URL: str = None,
     ):
         super().__init__()
         self.args = finetuned_architecture()
@@ -44,7 +45,6 @@ class UniMolModel(BaseUnicoreModel):
         self.remove_hs = remove_hs
         self.output_dim = output_dim
 
-        self.pretrain_path = (WEIGHT_DIR / self.model_file_name).as_posix()
         current_dir = pathlib.Path(__file__).resolve().parents[0]
         self.dictionary = Dictionary.load((current_dir / "dict.txt").as_posix())
 
@@ -86,11 +86,22 @@ class UniMolModel(BaseUnicoreModel):
         )
 
         self.apply(init_bert_params)
-        self.load_pretrained_weights(path=self.pretrain_path)
+        if model_file_name:
+            self.pretrain_path = (WEIGHT_DIR / self.model_file_name).as_posix()
+            self.load_pretrained_weights(path=self.pretrain_path)
+        elif model_file_URL:
+            self.download_and_load_pretrained_weights(model_file_URL)
+        else:
+            raise ValueError("Please provide either model_file_name or model_file_URL")
 
     def load_pretrained_weights(self, path):
-        logger.info("Loading pretrained weights from {}".format(path))
+        logger.info(f"Loading pretrained weights from {path}")
         state_dict = torch.load(path, map_location=lambda storage, loc: storage)
+        self.load_state_dict(state_dict["model"], strict=False)
+
+    def download_and_load_pretrained_weights(self, url):
+        logger.info(f"Loading pretrained weights from {url}")
+        state_dict = torch.hub.load_state_dict_from_url(url)
         self.load_state_dict(state_dict["model"], strict=False)
 
     @classmethod
