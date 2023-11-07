@@ -9,12 +9,12 @@ import importlib
 import logging
 import os
 import sys
-import warnings
 from functools import partial
-from typing import List, Callable, Any, Dict
+from typing import Callable, List
+
 import torch
-import torch.utils.checkpoint
 import torch.nn.functional as F
+import torch.utils.checkpoint
 
 try:
     import unicore_fused_multi_tensor
