@@ -5,19 +5,19 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
-WEIGHTS_PATH = pathlib.Path(__file__).resolve().parents[1] / "weights"
 
+PACKAGE_ROOT = pathlib.Path(__file__).resolve().parents[0]
 
 def normalize_output_for_space(raw_outputs: torch.Tensor, space: str) -> torch.Tensor:
     means = pickle.load(
         open(
-            WEIGHTS_PATH / "space_means.pkl",
+            PACKAGE_ROOT / "space_means.pkl",
             "rb",
         )
     )
     stds = pickle.load(
         open(
-            WEIGHTS_PATH / "space_stds.pkl",
+            PACKAGE_ROOT / "space_stds.pkl",
             "rb",
         )
     )
