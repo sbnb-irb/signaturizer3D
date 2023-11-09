@@ -68,3 +68,20 @@ def test_raises_on_invalid_space():
         match="A6 is not a valid CCSpace. Valid spaces are A1 ... E5, see the CCSpace enum.",
     ):
         _ = Signaturizer("A6")
+
+
+def test_sig_inference_from_coordinates_B4():
+    signaturizer = Signaturizer(CCSpace.B4)
+    data_dir = Path.cwd() / "tests" / "data"
+    with open(data_dir / "atoms_list.pkl", "rb") as f:
+        atoms_list = pickle.load(f)
+    with open(data_dir / "coordinates_list.pkl", "rb") as f:
+        coordinates_list = pickle.load(f)
+    with open(data_dir / "expected_sig4_output_B4_CPU.pkl", "rb") as f:
+        expected_sigs = pickle.load(f)
+
+    result = signaturizer.infer_from_coordinates(atoms_list, coordinates_list)
+
+    assert result is not None
+    assert result.shape == (32, 128)
+    assert np.allclose(result, expected_sigs, atol=1e-8)
