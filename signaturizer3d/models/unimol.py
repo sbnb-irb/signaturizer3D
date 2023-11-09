@@ -8,6 +8,7 @@ import argparse
 import logging
 import pathlib
 
+import numpy as np
 import torch
 import torch.nn as nn
 
@@ -185,7 +186,8 @@ class UniMolModel(BaseUnicoreModel):
                 )
             batch[k] = v
         try:
-            label = torch.tensor([s[1] for s in samples])
+            label_np = np.array([s[1] for s in samples])
+            label = torch.tensor(label_np)
         except:
             label = None
         return batch, label
