@@ -1,6 +1,6 @@
 import pytest
 
-from signaturizer3d.data.sdf import parse_sdf
+from signaturizer3d.data.sdf import gather_sdf_data, parse_sdf
 
 
 @pytest.fixture
@@ -164,3 +164,52 @@ def test_nonexistent_sdf_file(mocker):
 
     assert len(result) == 0
     mocked_logger.error.assert_called_once_with("Unable to read file nonexistent.sdf")
+
+
+sample_molecules = [
+    (["C", "H", "O"], [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0], [2.0, 2.0, 2.0]]),
+    (["N", "C"], [[3.0, 3.0, 3.0], [4.0, 4.0, 4.0]]),
+]
+
+
+@pytest.fixture
+def mock_sdf_file(tmp_path):
+    sdf_file = tmp_path / "molecule.sdf"
+    sdf_file.write_text("...")  # Dummy content
+    return str(sdf_file)
+
+
+@pytest.fixture
+def mock_sdf_directory(tmp_path):
+    for i in range(3):
+        (tmp_path / f"molecule_{i}.sdf").write_text("...")
+    return str(tmp_path)
+
+
+def test_gather_from_single_file(mocker, mock_sdf_file):
+    mocked_parse = mocker.patch(
+        "signaturizer3d.data.sdf.parse_sdf", return_value=sample_molecules
+    )
+
+    atoms, coords = gather_sdf_data(mock_sdf_file)
+
+    assert len(atoms) == 2
+    assert len(coords) == 2
+    mocked_parse.assert_called_once_with(mock_sdf_file)
+
+
+def test_gather_from_directory(mocker, mock_sdf_directory):
+    mocked_parse = mocker.patch(
+        "signaturizer3d.data.sdf.parse_sdf", return_value=sample_molecules
+    )
+    atoms, coords = gather_sdf_data(mock_sdf_directory)
+    # Assuming 3 files in the directory and each file returns the sample molecules
+    assert len(atoms) == 6
+    assert len(coords) == 6
+    assert mocked_parse.call_count == 3
+
+
+def test_file_not_found_error(mocker):
+    mocker.patch("signaturizer3d.data.sdf.parse_sdf", return_value=sample_molecules)
+    with pytest.raises(FileNotFoundError):
+        gather_sdf_data("/non/existent/path")
