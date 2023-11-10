@@ -1,6 +1,6 @@
 import pytest
 
-from signaturizer3d.infer_signature import Signaturizer
+from signaturizer3d.signaturizer import Signaturizer
 from signaturizer3d.types import CCSpace
 
 

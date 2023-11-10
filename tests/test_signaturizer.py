@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from signaturizer3d.infer_signature import Signaturizer
+from signaturizer3d.signaturizer import Signaturizer
 from signaturizer3d.types import CCSpace
 
 
@@ -54,9 +54,9 @@ def test_space_string_is_parsed_as_enum():
 
 def test_accepts_space_enum(mocker):
     space = CCSpace.B4
+    mocker.patch("signaturizer3d.signaturizer.FineTunedUniMol")
 
-    with mocker.patch("signaturizer3d.infer_signature.FineTunedUniMol"):
-        signaturizer = Signaturizer(space)
+    signaturizer = Signaturizer(space)
 
     assert isinstance(signaturizer.space, CCSpace)
     assert signaturizer.space == space
