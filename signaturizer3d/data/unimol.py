@@ -84,7 +84,7 @@ def coordinates_list_to_unimol(
                 coordinates,
                 dictionary,
                 max_atoms=256,
-                remove_hs=True,  # TODO remove this arg or pass it in from the model
+                remove_hs=True,
             )
         )
     return unimol_input
