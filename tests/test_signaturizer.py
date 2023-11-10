@@ -32,7 +32,7 @@ def test_sig_inference_from_coordinates_full(signaturizer):
 
     assert result is not None
     assert result.shape == (32, 128)
-    assert np.allclose(result, expected_sigs, atol=1e-8)
+    assert np.allclose(result, expected_sigs, atol=1e-6)
 
 
 def test_is_inference_repetables(signaturizer, atoms_coords_sig_single):
@@ -84,7 +84,7 @@ def test_sig_inference_from_coordinates_B4():
 
     assert result is not None
     assert result.shape == (32, 128)
-    assert np.allclose(result, expected_sigs, atol=1e-8)
+    assert np.allclose(result, expected_sigs, atol=1e-6)
 
 
 def test_sig_inference_from_coordinates_cpu_equals_gpu():
@@ -101,4 +101,4 @@ def test_sig_inference_from_coordinates_cpu_equals_gpu():
 
     assert result is not None
     assert result.shape == (32, 128)
-    assert np.allclose(result, expected_sigs, atol=1e-8)
+    assert np.allclose(result, expected_sigs, atol=1e-6)

@@ -1,9 +1,15 @@
 import numpy as np
 import numpy.typing as npt
-from scipy.spatial import distance_matrix
 
 from signaturizer3d.data.smiles import generate_conformations, validate_smiles
 from signaturizer3d.unicore.dictionary import Dictionary
+
+
+def pairwise_distance_numpy(coords: npt.NDArray[np.float32]) -> npt.NDArray[np.float32]:
+    # Calculate pairwise distance matrix using broadcasting and vector norm
+    diff = coords[:, np.newaxis] - coords[np.newaxis, :]
+    dist_matrix = np.sqrt(np.sum(diff**2, axis=-1))
+    return dist_matrix.astype(np.float32)
 
 
 def coordinates_to_unimol(
@@ -51,7 +57,7 @@ def coordinates_to_unimol(
     src_coord = coordinates_array - coordinates_array.mean(axis=0)
     src_coord = np.pad(src_coord, ((1, 1), (0, 0)), "constant", constant_values=0)
 
-    src_distance = distance_matrix(src_coord, src_coord).astype(np.float32)
+    src_distance = pairwise_distance_numpy(src_coord)
 
     # Calculate edge type, what does this do?
     # src_edge_type = np.outer(src_tokens, src_tokens).astype(int)
