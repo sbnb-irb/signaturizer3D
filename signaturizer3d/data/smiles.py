@@ -7,10 +7,8 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 from tqdm import tqdm
 
-
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
-
 
 
 def validate_smiles(smiles_list: list[str]) -> list[str]:
@@ -87,11 +85,10 @@ def generate_conformations(
     failed_conformers = [
         conformer for atoms, conformer in conformers if conformer.shape[0] == 0
     ]
-    failed_rate = len(failed_conformers) / len(conformers)
+    failed_rate = len(failed_conformers) / len(conformers) if len(conformers) else 0
     logger.info(f"Conformer generation success rate: {1 - failed_rate:.2%}")
 
     atoms_list = [atoms for atoms, _ in conformers]
     coordinates_list = [coords for _, coords in conformers]
 
     return atoms_list, coordinates_list
-
