@@ -74,13 +74,17 @@ def coordinates_list_to_unimol(
 ) -> list[dict]:
     assert (
         len(dictionary) == 31
-    ), "Dictionary length was 31 in unimol_tools and shoul be here too"
+    ), "Dictionary length was 31 in unimol_tools and should be here too"
 
     unimol_input = []
     for atoms, coordinates in zip(atoms_list, coordinates_list):
         unimol_input.append(
             coordinates_to_unimol(
-                atoms, coordinates, dictionary, max_atoms=256, remove_hs=True
+                atoms,
+                coordinates,
+                dictionary,
+                max_atoms=256,
+                remove_hs=True,  # TODO remove this arg or pass it in from the model
             )
         )
     return unimol_input
