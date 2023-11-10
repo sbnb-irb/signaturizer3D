@@ -16,7 +16,8 @@ class Signaturizer:
                 )
         self.space = space
 
-        # Signaturizers models are fine tuned from the non-hydrogen UniMol model
+        # Hydrogens are always removed as the signaturizers models are fine
+        # tuned from the pre-trained UniMol model trained without hydrogens
         self.model = FineTunedUniMol(space=self.space, remove_hs=True)
 
     def infer_from_coordinates(
