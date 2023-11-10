@@ -102,3 +102,42 @@ def test_sig_inference_from_coordinates_cpu_equals_gpu():
     assert result is not None
     assert result.shape == (32, 128)
     assert np.allclose(result, expected_sigs, atol=1e-6)
+
+
+@pytest.fixture
+def sdf_C(tmp_path):
+    sdf_content = """
+CT1001789336
+
+
+  5  4  0  0  0               999 V2000
+    0.0021   -0.0041    0.0020 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.0127    1.0858    0.0080 C   0  0  0  0  0  0  0  0  0  0  0  0
+    1.0099    1.4631    0.0003 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5399    1.4469   -0.8751 H   0  0  0  0  0  0  0  0  0  0  0  0
+   -0.5229    1.4373    0.9048 H   0  0  0  0  0  0  0  0  0  0  0  0
+  1  2  1  0  0  0  0
+  2  3  1  0  0  0  0
+  2  4  1  0  0  0  0
+  2  5  1  0  0  0  0
+M  END
+$$$$
+"""
+    sdf_file = tmp_path / "valid.sdf"
+    with open(sdf_file, "w") as file:
+        file.write(sdf_content.strip())
+    return str(sdf_file)
+
+
+def test_inference_from_sdf(signaturizer, sdf_C, signature_C):
+    # The expected signature is that of a single carbon atom
+    # since the sdf file contains one C and 4 H atoms that will
+    # be removed before signature inference
+    _, expected_signature = signature_C
+
+    result = signaturizer.infer_from_sdf(sdf_C)
+
+    assert result is not None
+    assert result.dtype == np.float32
+    assert result.shape == (1, 128)
+    assert np.allclose(result, expected_signature, atol=1e-6)

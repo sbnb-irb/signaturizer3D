@@ -1,4 +1,5 @@
 import logging
+import os
 
 from rdkit import Chem
 
@@ -39,3 +40,31 @@ def parse_sdf(sdf_file: str) -> list[tuple[list[str], list[list[float]]]]:
         parsed_data.append((atoms, coordinates))
 
     return parsed_data
+
+
+def gather_sdf_data(path: str) -> tuple[list[list[str]], list[list[list[float]]]]:
+    """
+    Gather atom and coordinate data from an SDF file or a directory of SDF files.
+
+    Returns:
+    Tuple containing two lists:
+        - A list of lists of atom types for each molecule.
+        - A list of lists of coordinates for each molecule.
+    """
+    all_atoms = []
+    all_coords = []
+
+    if os.path.isfile(path):
+        files = [path]
+    elif os.path.isdir(path):
+        files = [os.path.join(path, f) for f in os.listdir(path) if f.endswith(".sdf")]
+    else:
+        raise FileNotFoundError(f"No such file or directory: '{path}'")
+
+    for file in files:
+        molecules = parse_sdf(file)
+        for atoms, coords in molecules:
+            all_atoms.append(atoms)
+            all_coords.append(coords)
+
+    return all_atoms, all_coords
