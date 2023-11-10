@@ -24,7 +24,7 @@ class FineTunedUniMol(object):
     def __init__(
         self,
         space: CCSpace,
-        remove_hs: bool = False,
+        remove_hs: bool = True,
         use_gpu: bool = True,
         use_local_weights: bool = False,
     ):
