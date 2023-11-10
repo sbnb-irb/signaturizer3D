@@ -45,3 +45,19 @@ gh repo clone aksell/test-pytorch-modelhub
 cd test-pytorch-modelhub
 gh release create full-CC /aloy/home/alenes/signaturizer3d/weights/release/*
 ```
+
+## Run tests
+To run all tests:
+```shell
+poetry run pytest
+```
+
+By default tests marked with `performance` are excluded. These tests test runtime of different
+components. This will be very system dependent, therefore they are excluded by default.
+If you want to use these tests to monitor changes in performance as you change the code you
+should run the tests on your system before making any changes and update the time threshold to
+that before making any changes. 
+Run the `performance` tests with:
+```shell
+poetry run pytest -m 'performance'
+```
