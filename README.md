@@ -4,50 +4,65 @@ Signaturizers trained on 3D conformations of molecules that are sensitive to the
 
 ![](logo.png)
 
+## Get started
 
-## Install
-Dependencies are managed via poetry. Install them with poetry like this:
+### Install
+Create a virtual environment with Python 3.9 or higher.
+```shell
+conda create -n sign3D-env python=3.10
+```
+Install signaturizer3d.
+```shell
+pip install signaturizer3d
+```
+Install pytorch. Pytorch needs to be installed separately. Find the correct install
+command for your compute platform (CPU, GPU, ...) and install tool (pip, conda) [on this page](https://pytorch.org/get-started/locally/).
+Fex, if you want to install with Conda for the CPU only you would run.
+```shell
+conda install pytorch torchvision torchaudio cpuonly -c pytorch
+```
+### Infer signatures for molecules
+Instantiate a signaturizer for one of the 25 bioactivity spaces in the chemical checker:
+```python
+from signaturizer3d import Signaturizer, CCSpace
+
+signaturizer = Signaturizer(CCSpace.B4)
+```
+The first time you load a space it will download and cache the model weights
+locally.
+
+Infer signaturers from a list of SMILES.
+```python
+smiles_list = ['C', 'CCC', "CN(C)CCOC(C1=CC=CC=C1)C1=CC=CC=C1" ]
+signatures = signaturizer.infer_from_smiles(smiles_list)
+print(signatures.shape) # -> (3, 128) one 128D vector per molecule
+```
+
+Infer signatures from an SDF file or a directory of SDF files by specifying a path.
+```python
+signatures = signaturizers.infer_from_sdf("/path/to/file.sdf")
+```
+
+See the notebook for further examples TODO link
+
+For a more comprehensive example of using infered bioactivity signatures for analysing similarity between a set of compounds 
+have a look at the [example notebook](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer/-/blob/master/notebook/signaturizer.ipynb) in the original signaturizers package.
+
+## Development
+Guidelines on how to set up the development environment and run tests.
+
+### Install dependencies locally
+Dependencies are managed via [poetry](https://python-poetry.org/). Install them with poetry by running this inside
+the project directory:
 ```shell
 poetry install
 ```
 
-If you don't like or know poetry you can use conda and install the dependencies directly from `requirements.txt`:
-```shell
-conda create --name unimol-tools
-pip install -r requirements.txt
-```
-The dependencies in the file are exported directly from poetry.
-<!-- TODO: Export requirements to from poetry with CI -->
+Install pytorch (the project has been tested with pytorch 2.1). Pytorch needs to be installed outside poetry for now. Find the correct install
+command for your compute platform (CPU, GPU, ...) and install tool [on this page](https://pytorch.org/get-started/locally/).
 
-**install pytorch**
-Pytorch needs to be installed outside poetry for now, as it has special install instructions depending on your system and CUDA version,
-check https://pytorch.org/get-started/locally/ to ensure you install the right one.
-To install for CPU only:
-```shell
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-
-```
-
-## Where are the model weights uploaded?
-The fine tuned model weights are uploaded to an empty github repo as a set of binary files for a release:
-https://github.com/aksell/test-pytorch-modelhub/releases/tag/full-CC
-
-The weights are uploaded as a github release because releases have no size limit,
-and the 25 models total ~14GB, which means they're way to large for the sbnb gitlab
-release max size of 10MB. 
-Putting the weighs in the gitlab repo would bloat the repo massively
-and it suck majorly to clone it, especially if we release an updated set of weights.
-
-A new release with updated weights could be created like this, here the `/release/` dir holds
-the model weights.
-```
-gh repo clone aksell/test-pytorch-modelhub
-cd test-pytorch-modelhub
-gh release create full-CC /aloy/home/alenes/signaturizer3d/weights/release/*
-```
-
-## Run tests
-To run all tests:
+### Run tests
+Run all tests.
 ```shell
 poetry run pytest
 ```
@@ -61,3 +76,6 @@ Run the `performance` tests with:
 ```shell
 poetry run pytest -m 'performance'
 ```
+
+### Documentation
+For more information about the package and unimol check out the [docs](docs/index.md)
