@@ -7,8 +7,8 @@ import torch
 from torch.utils.data import DataLoader
 
 if TYPE_CHECKING:
-    from signaturizer3d.types import CCSpace
-    from signaturizer3d.unimol import MolDataset, UniMolModel
+    from signaturizer3d.space import CCSpace
+    from signaturizer3d.model import MolDataset, UniMolModel
 
 PACKAGE_ROOT = pathlib.Path(__file__).resolve().parents[0]
 

@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from signaturizer3d.signaturizer import Signaturizer
-from signaturizer3d.types import CCSpace
+from signaturizer3d.space import CCSpace
 
 
 def test_sig_inference_from_coordinates(signaturizer, atoms_coords_sig_single):

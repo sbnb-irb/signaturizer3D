@@ -2,8 +2,8 @@ import numpy as np
 import numpy.typing as npt
 
 from signaturizer3d.data.sdf import gather_sdf_data
-from signaturizer3d.types import CCSpace
-from signaturizer3d.unimol import FineTunedUniMol
+from signaturizer3d.space import CCSpace
+from signaturizer3d.model import FineTunedUniMol
 
 
 class Signaturizer:
