@@ -68,7 +68,7 @@ Infer signatures from an SDF file or a directory of SDF files by specifying a pa
 signatures = signaturizers.infer_from_sdf("/path/to/file.sdf")
 ```
 
-See the notebook for further examples TODO link
+See this [notebook](https://gitlabsbnb.irbbarcelona.org/alenes/signaturizer3d/-/blob/main/notebooks/infer_signatures.ipynb) for more detailed examples of signaturizer usage.
 
 For a more comprehensive example of using infered bioactivity signatures for analysing similarity between a set of compounds 
 have a look at the [example notebook](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer/-/blob/master/notebook/signaturizer.ipynb) in the original signaturizers package.
