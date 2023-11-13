@@ -1,18 +1,33 @@
 <div align="center">
-    <img src="logo.png" alt="Your image" width="30%"/>
+    <img src="logo.png" alt="Your image" width="40%"/>
     <center><h1>signaturizer3D</h1></center>
 </div>
 
 <br/>
 
 <div align="center">
-<h3>Infer the bioactivity of molecules using models traiend on the 3D structure of molecules</h3>
+<h3>Infer the bioactivity of molecules using models trained on the 3D structure of molecules</h3>
 </div>
 
-This package is an evolution of the orignal [signaturizers](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer) using new models that are sensitive to the 3D structure of molecules.
 
 ---
+## Bioactivity signaturizers
 
+This package builds on the orignal [signaturizers](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer) package ([paper](https://www.nature.com/articles/s41467-021-24150-4)) by applying a state of the art 3D transformer model for molecular representation ([Uni-Mol](https://github.com/dptech-corp/Uni-Mol/tree/main/unimol)) to the task of infering
+bioactivity.
+
+Bioactivity signatures are multi-dimensional vectors that capture biological
+traits of a molecule (fex its target profile) in a numerical vector
+format that is akin to the structural descriptors or fingerprints used in the
+field of chemoinformatics.
+
+The **signaturizer3D** models infer bioactivity in 25 bioactivity types (including
+target profiles, cellular response and clinical outcomes) and can be used as
+drop-in replacements for chemical descriptors in day-to-day chemoinformatics
+tasks.
+
+For and overview of the different bioctivity types available see the original Chemical
+ Checker [paper](https://www.nature.com/articles/s41587-020-0502-7) or [website](https://chemicalchecker.com/).
 ## Get started
 
 ### Install
