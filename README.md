@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="logo.png" alt="Your image" width="40%"/>
+    <img src="https://github.com/aksell/test-pytorch-modelhub/assets/22766894/e4e223f1-66d8-4a85-ad4e-6e5849917a2c" alt="signaturizer3D" width="40%"/>
     <center><h1>signaturizer3D</h1></center>
 </div>
 
