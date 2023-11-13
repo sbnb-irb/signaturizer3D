@@ -2,18 +2,24 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import logging
+
 import torch
 import torch.nn.functional as F
 
+logger = logging.getLogger(__name__)
+
 try:
     import unicore_fused_softmax_dropout
+
     HAS_SOFTMAX = True
 except:
-    print("fused_softmax is not installed corrected")
+    logger.info("fused_softmax is not installed corrected")
     HAS_SOFTMAX = False
 
 if not torch.cuda.is_available() or torch.cuda.get_device_capability()[0] < 7:
     HAS_SOFTMAX = False
+
 
 class SoftmaxDropoutFast(torch.autograd.Function):
     @staticmethod
@@ -58,7 +64,9 @@ def _check_mask(mask, input):
             mask.shape[-3] == 1 or mask.shape[-3] == input.shape[-3]
         ), "mask.shape[-3] must be 1 or input.shape[-3]"
         if mask.shape[-3] == 1:
-            assert mask.shape[-2] == 1, "when mask.shape[-3] == 1, mask.shape[-2] must be 1"
+            assert (
+                mask.shape[-2] == 1
+            ), "when mask.shape[-3] == 1, mask.shape[-2] must be 1"
         else:
             assert (
                 mask.shape[-2] == 1 or mask.shape[-2] == input.shape[-2]
@@ -72,8 +80,12 @@ def _check_bias(bias, input):
     try:
         assert bias.dtype == input.dtype, "bias and input must have the same dtype"
         assert len(bias.shape) == len(input.shape), "wrong length of bias.shape"
-        assert bias.shape[-1] == input.shape[-1], "bias.shape[-1] must be input.shape[-1]"
-        assert bias.shape[-2] == input.shape[-2], "bias.shape[-2] must be input.shape[-2]"
+        assert (
+            bias.shape[-1] == input.shape[-1]
+        ), "bias.shape[-1] must be input.shape[-1]"
+        assert (
+            bias.shape[-2] == input.shape[-2]
+        ), "bias.shape[-2] must be input.shape[-2]"
         len_shape = len(input.shape)
         if len_shape > 3:
             # head dim should be the same
@@ -97,7 +109,9 @@ def _check_bias(bias, input):
         return False
 
 
-def softmax_dropout(input, dropout_prob, is_training=True, mask=None, bias=None, inplace=True):
+def softmax_dropout(
+    input, dropout_prob, is_training=True, mask=None, bias=None, inplace=True
+):
     """softmax dropout, and mask, bias are optional.
     Args:
         input (torch.Tensor): input tensor
@@ -133,9 +147,13 @@ def softmax_dropout(input, dropout_prob, is_training=True, mask=None, bias=None,
                 is_training, input, mask, bias, dropout_prob
             ).view(*input_size)
         else:
-            return F.dropout(SoftmaxDropoutFast.apply(
-                is_training, input, mask, bias, 0.0
-            ).view(*input_size), p=dropout_prob, training=is_training)
+            return F.dropout(
+                SoftmaxDropoutFast.apply(is_training, input, mask, bias, 0.0).view(
+                    *input_size
+                ),
+                p=dropout_prob,
+                training=is_training,
+            )
     else:
         if mask is not None:
             input += mask

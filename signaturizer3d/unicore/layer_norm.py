@@ -2,6 +2,7 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+import logging
 import numbers
 
 import torch
@@ -9,13 +10,14 @@ from torch.nn import functional as F
 from torch.nn import init
 from torch.nn.parameter import Parameter
 
+logger = logging.getLogger(__name__)
 try:
     import unicore_fused_layernorm
     import unicore_fused_layernorm_backward_gamma_beta
 
     HAS_LAYER_NORM = True
 except:
-    print("fused_layer_norm is not installed corrected")
+    logger.info("fused_layer_norm is not installed corrected")
     HAS_LAYER_NORM = False
 
 if not torch.cuda.is_available() or torch.cuda.get_device_capability()[0] < 7:
