@@ -1,8 +1,17 @@
-# Signaturizer3D
+<div align="center">
+    <img src="logo.png" alt="Your image" width="30%"/>
+    <center><h1>signaturizer3D</h1></center>
+</div>
 
-Signaturizers trained on 3D conformations of molecules that are sensitive to the 3D geometry of molecules. The 3D Signaturizers are able to distinguish between stereoisomers. 
+<br/>
 
-<img src="logo.png" width="50%" height="50%">
+<div align="center">
+<h3>Infer the bioactivity of molecules using models traiend on the 3D structure of molecules</h3>
+</div>
+
+This package is an evolution of the orignal [signaturizers](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer) using new models that are sensitive to the 3D structure of molecules.
+
+---
 
 ## Get started
 
