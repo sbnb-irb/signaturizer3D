@@ -34,10 +34,11 @@ For and overview of the different bioctivity types available see the original Ch
 Create a virtual environment with Python 3.9 or higher.
 ```shell
 conda create -n sign3D-env python=3.10
+conda activate sign3D-env
 ```
-Install signaturizer3d.
+Install the package with pip.
 ```shell
-pip install signaturizer3d
+python -m pip install signaturizer3d
 ```
 Install pytorch. Pytorch needs to be installed separately. Find the correct install
 command for your compute platform (CPU, GPU, ...) and install tool (pip, conda) [on this page](https://pytorch.org/get-started/locally/).
@@ -59,7 +60,7 @@ Infer signaturers from a list of SMILES.
 ```python
 smiles_list = ['C', 'CCC', "CN(C)CCOC(C1=CC=CC=C1)C1=CC=CC=C1" ]
 signatures = signaturizer.infer_from_smiles(smiles_list)
-print(signatures.shape) # -> (3, 128) one 128D vector per molecule
+print(signatures.shape) # -> (3, 128) a 128D vector per molecule
 ```
 
 Infer signatures from an SDF file or a directory of SDF files by specifying a path.
