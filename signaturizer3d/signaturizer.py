@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 
-from signaturizer3d.data.sdf import gather_sdf_data
+from signaturizer3d.input.sdf import gather_sdf_data
 from signaturizer3d.space import CCSpace
 from signaturizer3d.model import FineTunedUniMol
 

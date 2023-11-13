@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 
 from signaturizer3d import CCSpace
-from signaturizer3d.data.unimol import coordinates_list_to_unimol
+from signaturizer3d.input.unimol_adapter import coordinates_list_to_unimol
 from signaturizer3d.model import FineTunedUniMol
 
 
