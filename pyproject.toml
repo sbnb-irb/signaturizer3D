@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "signaturizer3d"
-version = "0.1.0"
+version = "0.1.1"
 description = "Signaturizers trained on 3D conformations of molcecules that are sensitive to the 3D geometry of molecules. The 3D Signaturizers are able to distinguish between stereoisomers."
 authors = ["Aksel Lenes <aksel.lenes@irbbarcelona.org>"]
 license = "MIT"
