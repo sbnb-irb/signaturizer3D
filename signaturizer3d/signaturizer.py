@@ -2,13 +2,13 @@ import numpy as np
 import numpy.typing as npt
 
 from signaturizer3d.input.sdf import gather_sdf_data
-from signaturizer3d.space import CCSpace
 from signaturizer3d.model import FineTunedUniMol
+from signaturizer3d.space import CCSpace
 
 
 class Signaturizer:
     def __init__(self, space: CCSpace):
-        if isinstance(space, str):
+        if not isinstance(space, CCSpace):
             try:
                 space = CCSpace[space]
             except KeyError:

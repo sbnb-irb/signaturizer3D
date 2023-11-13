@@ -24,7 +24,7 @@ def normalize_for_space(raw_outputs: torch.Tensor, space: "CCSpace") -> torch.Te
         )
     )
 
-    space_mean = torch.tensor(means[space.value], device=raw_outputs.device)
-    space_std = torch.tensor(stds[space.value], device=raw_outputs.device)
+    space_mean = torch.tensor(means[space.name], device=raw_outputs.device)
+    space_std = torch.tensor(stds[space.name], device=raw_outputs.device)
     normalized_output = raw_outputs * space_std + space_mean
     return normalized_output
