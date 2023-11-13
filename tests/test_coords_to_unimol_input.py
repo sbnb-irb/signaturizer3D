@@ -11,7 +11,7 @@ from signaturizer3d.unicore.dictionary import Dictionary
 def dictionary():
     DICT_PATH = (
         pathlib.Path(__file__).resolve().parents[1]
-        / "signaturizer3d/models/"
+        / "signaturizer3d/unimol/"
         / "dict.txt"
     )
     dictionary = Dictionary.load(DICT_PATH.as_posix())
