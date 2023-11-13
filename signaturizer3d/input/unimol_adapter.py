@@ -1,7 +1,7 @@
 import numpy as np
 import numpy.typing as npt
 
-from signaturizer3d.data.smiles import generate_conformations, validate_smiles
+from signaturizer3d.input.smiles import generate_conformations, validate_smiles
 from signaturizer3d.unicore.dictionary import Dictionary
 
 

@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-from signaturizer3d.data import coordinates_list_to_unimol, smiles_to_unimol
+from signaturizer3d.input import coordinates_list_to_unimol, smiles_to_unimol
 from signaturizer3d.inference import run_inference
 from signaturizer3d.unimol import UniMolModel
 from signaturizer3d.space import CCSpace

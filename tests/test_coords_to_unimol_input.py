@@ -3,7 +3,7 @@ import pathlib
 import numpy as np
 import pytest
 
-from signaturizer3d.data.unimol import coordinates_to_unimol
+from signaturizer3d.input.unimol_adapter import coordinates_to_unimol
 from signaturizer3d.unicore.dictionary import Dictionary
 
 

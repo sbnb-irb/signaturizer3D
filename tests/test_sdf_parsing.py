@@ -1,6 +1,6 @@
 import pytest
 
-from signaturizer3d.data.sdf import gather_sdf_data, parse_sdf
+from signaturizer3d.input.sdf import gather_sdf_data, parse_sdf
 
 
 @pytest.fixture
@@ -66,7 +66,7 @@ def malformed_sdf(tmp_path):
 
 
 def test_malformed_sdf_file(malformed_sdf, mocker):
-    mocked_logger = mocker.patch("signaturizer3d.data.sdf.logger")
+    mocked_logger = mocker.patch("signaturizer3d.input.sdf.logger")
 
     result = parse_sdf(malformed_sdf)
 
@@ -158,7 +158,7 @@ def test_multi_molecule_sdf_file(multi_molecule_sdf):
 
 
 def test_nonexistent_sdf_file(mocker):
-    mocked_logger = mocker.patch("signaturizer3d.data.sdf.logger")
+    mocked_logger = mocker.patch("signaturizer3d.input.sdf.logger")
 
     result = parse_sdf("nonexistent.sdf")
 
@@ -188,7 +188,7 @@ def mock_sdf_directory(tmp_path):
 
 def test_gather_from_single_file(mocker, mock_sdf_file):
     mocked_parse = mocker.patch(
-        "signaturizer3d.data.sdf.parse_sdf", return_value=sample_molecules
+        "signaturizer3d.input.sdf.parse_sdf", return_value=sample_molecules
     )
 
     atoms, coords = gather_sdf_data(mock_sdf_file)
@@ -200,7 +200,7 @@ def test_gather_from_single_file(mocker, mock_sdf_file):
 
 def test_gather_from_directory(mocker, mock_sdf_directory):
     mocked_parse = mocker.patch(
-        "signaturizer3d.data.sdf.parse_sdf", return_value=sample_molecules
+        "signaturizer3d.input.sdf.parse_sdf", return_value=sample_molecules
     )
     atoms, coords = gather_sdf_data(mock_sdf_directory)
     # Assuming 3 files in the directory and each file returns the sample molecules
@@ -210,6 +210,6 @@ def test_gather_from_directory(mocker, mock_sdf_directory):
 
 
 def test_file_not_found_error(mocker):
-    mocker.patch("signaturizer3d.data.sdf.parse_sdf", return_value=sample_molecules)
+    mocker.patch("signaturizer3d.input.sdf.parse_sdf", return_value=sample_molecules)
     with pytest.raises(FileNotFoundError):
         gather_sdf_data("/non/existent/path")
