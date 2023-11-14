@@ -1,33 +1,36 @@
-image: python:3.10
-
 stages:
+  - build-docker
   - test
   - lint
-  - types
-  - deploy
 
-cache:
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - .venv/
-    - ${HOME}/.cache/pypoetry/
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:latest
 
-before_script:
-  - if [ ! -d ".venv" ]; then pip install poetry; fi
-  - poetry config virtualenvs.create true
-  - poetry config virtualenvs.in-project true
-  - if [ ! -d ".venv" ]; then poetry install; fi
-  - if [ ! -f ".venv/bin/torch" ]; then poetry run python -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu; fi
-Unit Tests:
+build:
+  image: docker:20.10.16
+  stage: build-docker
+  services:
+    - docker:20.10.16-dind
+  # only:
+  #   changes:
+  #     - pyproject.toml
+  #     - poetry.lock
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
+
+Run Tests:
+  image: $CONTAINER_TEST_IMAGE
   stage: test
   script:
+    - poetry install # install the package itself, the image only has the dependencies
     - poetry run pytest
 
-Python Code Lint:
+Lint:
+  image: $CONTAINER_TEST_IMAGE
   stage: lint
   script:
     - poetry run black --check .
-# Static Type check:
-#   stage: types
-#   script:
-#     - poetry run mypy .
