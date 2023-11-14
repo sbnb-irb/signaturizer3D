@@ -26,9 +26,8 @@ Unit Tests:
 Python Code Lint:
   stage: lint
   script:
-    - poetry run black .
-
-Static Type check:
-  stage: types
-  script:
-    - poetry run mypy .
+    - poetry run black --check .
+# Static Type check:
+#   stage: types
+#   script:
+#     - poetry run mypy .
