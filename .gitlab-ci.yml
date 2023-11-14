@@ -13,10 +13,10 @@ build:
   stage: build-docker
   services:
     - docker:20.10.16-dind
-  # only:
-  #   changes:
-  #     - pyproject.toml
-  #     - poetry.lock
+  only:
+    changes:
+      - pyproject.toml
+      - poetry.lock
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CONTAINER_TEST_IMAGE .
