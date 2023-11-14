@@ -42,7 +42,7 @@ class BaseUnicoreModel(nn.Module):
         """Copies parameters and buffers from *state_dict* into this module and
         its descendants.
 
-        Overrides the method in :class:`nn.Module`. 
+        Overrides the method in :class:`nn.Module`.
         """
         return super().load_state_dict(state_dict, strict)
 

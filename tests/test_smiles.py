@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def test_infer_from_smiles(signaturizer, signature_C):
     smiles, expected_sig = signature_C
     smiles_list = [smiles]
