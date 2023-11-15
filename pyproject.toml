@@ -13,6 +13,7 @@ tqdm = "^4.0.0"
 addict = "^2.0.0"
 rdkit-pypi = "^2022.9.3"
 pandas = "^2.0.0"
+chardet = "^5.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
