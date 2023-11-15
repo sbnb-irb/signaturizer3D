@@ -11,7 +11,7 @@ python = ">=3.9,<3.13"
 numpy = "^1.0.0"
 tqdm = "^4.0.0"
 addict = "^2.0.0"
-rdkit-pypi = "^2022.9.5"
+rdkit-pypi = "^2022.9.3"
 pandas = "^2.0.0"
 
 
