@@ -53,6 +53,8 @@ Instantiate a signaturizer for one of the 25 bioactivity spaces in the chemical 
 ```python
 from signaturizer3d import Signaturizer, CCSpace
 
+CCSpace.print_spaces() # Prints a description of the 25 available spaces
+
 signaturizer = Signaturizer(CCSpace.B4)
 ```
 The first time you load a space it will download and cache the model weights
