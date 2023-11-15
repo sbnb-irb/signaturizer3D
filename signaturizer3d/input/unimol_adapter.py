@@ -1,3 +1,5 @@
+from typing import List, Union
+
 import numpy as np
 import numpy.typing as npt
 
@@ -13,8 +15,8 @@ def pairwise_distance_numpy(coords: npt.NDArray[np.float32]) -> npt.NDArray[np.f
 
 
 def coordinates_to_unimol(
-    atoms: list[str],
-    coordinates: npt.NDArray[np.float32] | list[list[float]],
+    atoms: List[str],
+    coordinates: Union[npt.NDArray[np.float32], List[List[float]]],
     dictionary: Dictionary,
     max_atoms: int = 256,
     remove_hs: bool = True,
@@ -23,7 +25,7 @@ def coordinates_to_unimol(
     Converts atom symbols and coordinates to input in unimol's expected representation.
 
     Parameters:
-    atoms (list[str]): List of atom symbols.
+    atoms (List[str]): List of atom symbols.
     coordinates (numpy array): (n_atoms, 3) numpy array of x, y, z coordinates for each atom.
     dictionary (Dictionary): A Uni-Core dictionay
     max_atoms (int): Maximum number of atoms to consider in the molecule
@@ -74,10 +76,10 @@ def coordinates_to_unimol(
 
 
 def coordinates_list_to_unimol(
-    atoms_list: list[list[str]],
-    coordinates_list: list[list[list[float]]],
+    atoms_list: List[List[str]],
+    coordinates_list: List[List[List[float]]],
     dictionary: Dictionary,
-) -> list[dict]:
+) -> List[dict]:
     assert (
         len(dictionary) == 31
     ), "Dictionary length was 31 in unimol_tools and should be here too"
@@ -96,7 +98,7 @@ def coordinates_list_to_unimol(
     return unimol_input
 
 
-def smiles_to_unimol(smiles_list: list[str], dictionary: Dictionary) -> list[dict]:
+def smiles_to_unimol(smiles_list: List[str], dictionary: Dictionary) -> List[dict]:
     valid_smiles = validate_smiles(smiles_list)
     atoms_list, coordinates_list = generate_conformations(valid_smiles)
     unimol_input = coordinates_list_to_unimol(atoms_list, coordinates_list, dictionary)  # type: ignore

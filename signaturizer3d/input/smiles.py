@@ -1,5 +1,6 @@
 import logging
 from multiprocessing import Pool
+from typing import List
 
 import numpy as np
 import numpy.typing as npt
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-def validate_smiles(smiles_list: list[str]) -> list[str]:
+def validate_smiles(smiles_list: List[str]) -> List[str]:
     valid_smiles = []
     invalid_smiles = []
 
@@ -64,8 +65,8 @@ def smi2coords_wrapper(args):
 
 
 def generate_conformations(
-    smiles_list: list[str], seed: int = -1
-) -> tuple[list[list[str]], list[npt.NDArray[np.float32]]]:
+    smiles_list: List[str], seed: int = -1
+) -> tuple[List[List[str]], List[npt.NDArray[np.float32]]]:
     """
     Generate 3D coordinates for a list of SMILES strings
 

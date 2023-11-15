@@ -395,7 +395,7 @@ def dict_map(fn, dic, leaf_type):
 def tree_map(fn, tree, leaf_type):
     if isinstance(tree, dict):
         return dict_map(fn, tree, leaf_type)
-    elif isinstance(tree, list):
+    elif isinstance(tree, List):
         return [tree_map(fn, x, leaf_type) for x in tree]
     elif isinstance(tree, tuple):
         return tuple([tree_map(fn, x, leaf_type) for x in tree])
