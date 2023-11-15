@@ -45,5 +45,5 @@ Build and publish test:
     - poetry config repositories.testpypi https://test.pypi.org/legacy/
     - poetry config pypi-token.testpypi $PYPI_TEST_TOKEN
     - poetry publish --repository testpypi
-  # only:
-  #   - tags
+  only:
+    - tags
