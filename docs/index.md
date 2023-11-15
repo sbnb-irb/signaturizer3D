@@ -1,6 +1,7 @@
 # Documentation
 
 - [Model Weights](docs/weights.md)
+- [Releasing package updates](docs/releases.md)
 
 ## To do
 - [ ] Describe Uni-Mol and why Uni Mol is interesting, link to github and papers
