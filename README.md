@@ -48,6 +48,9 @@ Fex, if you want to install with Conda for the CPU only you would run.
 ```shell
 conda install pytorch torchvision torchaudio cpuonly -c pytorch
 ```
+
+If you're using singularity containers there is an example image definition file [singularity.def](https://gitlabsbnb.irbbarcelona.org/alenes/signaturizer3d/-/blob/main/singularity.def) that shows how you can install
+the package with cuda and pytorch.
 ### Infer signatures for molecules
 Instantiate a signaturizer for one of the 25 bioactivity spaces in the chemical checker:
 ```python

@@ -1,0 +1,10 @@
+Bootstrap: docker
+From: pytorch/pytorch:1.13.1-cuda11.6-cudnn8-runtime
+
+%post
+    apt-get update -y && apt-get install -y software-properties-common
+
+    pip install pandas rdkit-pypi tqdm
+    pip install -i https://test.pypi.org/simple/ signaturizer3d
+
+    pip install jupyterlab
