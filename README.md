@@ -6,15 +6,15 @@
 <br/>
 
 <div align="center">
-<h3>Infer the bioactivity of molecules using models trained on the 3D structure of molecules</h3>
+<h3>Infer the bioactivity of molecules using models trained on molecular 3D structures</h3>
 </div>
 
 
 ---
 ## Bioactivity signaturizers
 
-This package builds on the original [signaturizers](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer) package ([paper](https://www.nature.com/articles/s41467-021-24150-4)) by applying a state of the art 3D transformer model for molecular representation ([Uni-Mol](https://github.com/dptech-corp/Uni-Mol/tree/main/unimol)) to the task of infering
-bioactivity.
+This package builds on the original [signaturizers](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer) package ([paper](https://www.nature.com/articles/s41467-021-24150-4)) by applying a state of the art 3D transformer model for molecular representation ([Uni-Mol](https://github.com/dptech-corp/Uni-Mol/tree/main/unimol)) to the task of infering bioactivity. One of the novel capabilities of `signaturizer3D` is the 
+ability to infer different bioactivities for stereoisomers of a molecule.
 
 Bioactivity signatures are multi-dimensional vectors that capture biological
 traits of a molecule (fex its target profile) in a numerical vector
