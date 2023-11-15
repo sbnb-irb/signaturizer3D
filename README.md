@@ -38,7 +38,7 @@ conda activate sign3D-env
 ```
 Install the package with pip (use PyPi test for now, as the package isn't published on PyPi yet)
 ```shell
-pip install tqdm pandas rdkit-pypi # Install package not published to test.pypi from pypi first
+pip install tqdm pandas rdkit-pypi chardet # Install package not published to test.pypi from pypi first
 pip install -i https://test.pypi.org/simple/ signaturizer3d
 # python -m pip install signaturizer3d # This will be the only command once the package is published to pypi
 ```
@@ -74,6 +74,7 @@ Infer signatures from an SDF file or a directory of SDF files by specifying a pa
 ```python
 signatures = signaturizers.infer_from_sdf("/path/to/file.sdf")
 ```
+(Download the [nicotine sdf file](https://static.molinstincts.com/sdf_3d/nicotine-3D-structure-CT1000158073.sdf) if you want an sdf file to test with)
 
 See this [notebook](https://gitlabsbnb.irbbarcelona.org/alenes/signaturizer3d/-/blob/main/notebooks/infer_signatures.ipynb) for more detailed examples of signaturizer usage.
 
