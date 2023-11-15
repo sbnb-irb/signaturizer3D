@@ -13,7 +13,7 @@
 ---
 ## Bioactivity signaturizers
 
-This package builds on the orignal [signaturizers](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer) package ([paper](https://www.nature.com/articles/s41467-021-24150-4)) by applying a state of the art 3D transformer model for molecular representation ([Uni-Mol](https://github.com/dptech-corp/Uni-Mol/tree/main/unimol)) to the task of infering
+This package builds on the original [signaturizers](https://gitlabsbnb.irbbarcelona.org/packages/signaturizer) package ([paper](https://www.nature.com/articles/s41467-021-24150-4)) by applying a state of the art 3D transformer model for molecular representation ([Uni-Mol](https://github.com/dptech-corp/Uni-Mol/tree/main/unimol)) to the task of infering
 bioactivity.
 
 Bioactivity signatures are multi-dimensional vectors that capture biological
@@ -38,8 +38,9 @@ conda activate sign3D-env
 ```
 Install the package with pip (use PyPi test for now, as the package isn't published on PyPi yet)
 ```shell
+pip install tqdm pandas rdkit-pypi # Install package not published to test.pypi from pypi first
 pip install -i https://test.pypi.org/simple/ signaturizer3d
-# python -m pip install signaturizer3d
+# python -m pip install signaturizer3d # This will be the only command once the package is published to pypi
 ```
 Install pytorch. Pytorch needs to be installed separately. Find the correct install
 command for your compute platform (CPU, GPU, ...) and install tool (pip, conda) [on this page](https://pytorch.org/get-started/locally/).
