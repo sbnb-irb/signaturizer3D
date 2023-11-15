@@ -1,3 +1,5 @@
+from typing import List, Union
+
 import numpy as np
 import torch
 from torch.utils.data import Dataset
@@ -54,7 +56,7 @@ class FineTunedUniMol(object):
         self.params = {"remove_hs": remove_hs}
 
     def get_sig4_coordinates(
-        self, atoms: list[list[str]], coordinates: list[list[list[float]]]
+        self, atoms: List[List[str]], coordinates: List[List[List[float]]]
     ):
         unimol_input = coordinates_list_to_unimol(
             atoms, coordinates, self.model.dictionary
@@ -65,7 +67,7 @@ class FineTunedUniMol(object):
         )
         return sig4_output
 
-    def get_sig4_smiles(self, smiles_list: list[str] | str):
+    def get_sig4_smiles(self, smiles_list: Union[List[str], str]):
         if isinstance(smiles_list, str):
             smiles_list = [smiles_list]
         unimol_input = smiles_to_unimol(smiles_list, self.model.dictionary)

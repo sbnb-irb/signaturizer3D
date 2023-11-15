@@ -1,12 +1,13 @@
 import logging
 import os
+from typing import List
 
 from rdkit import Chem
 
 logger = logging.getLogger(__name__)
 
 
-def parse_sdf(sdf_file: str) -> list[tuple[list[str], list[list[float]]]]:
+def parse_sdf(sdf_file: str) -> List[tuple[List[str], List[List[float]]]]:
     """
     Parses an SDF file to extract atoms and their coordinates.
 
@@ -14,7 +15,7 @@ def parse_sdf(sdf_file: str) -> list[tuple[list[str], list[list[float]]]]:
     sdf_file (str): Path to the SDF file.
 
     Returns:
-    List[Tuple[List[str], List[List[float]]]]: A list of tuples, where each tuple contains a list of atom types
+    List[Tuple[List[str], List[List[float]]]]: A List of tuples, where each tuple contains a list of atom types
     and a list of their corresponding 3D coordinates for each molecule in the SDF file.
     """
     try:
@@ -42,7 +43,7 @@ def parse_sdf(sdf_file: str) -> list[tuple[list[str], list[list[float]]]]:
     return parsed_data
 
 
-def gather_sdf_data(path: str) -> tuple[list[list[str]], list[list[list[float]]]]:
+def gather_sdf_data(path: str) -> tuple[List[List[str]], List[List[List[float]]]]:
     """
     Gather atom and coordinate data from an SDF file or a directory of SDF files.
 
