@@ -72,7 +72,7 @@ print(signatures.shape) # -> (3, 128) a 128D vector per molecule
 
 Infer signatures from an SDF file or a directory of SDF files by specifying a path.
 ```python
-signatures = signaturizers.infer_from_sdf("/path/to/file.sdf")
+signatures = signaturizer.infer_from_smiles(smiles_list)
 ```
 (Download the [nicotine sdf file](https://static.molinstincts.com/sdf_3d/nicotine-3D-structure-CT1000158073.sdf) if you want an sdf file to test with)
 
