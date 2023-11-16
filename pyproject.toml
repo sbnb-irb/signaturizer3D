@@ -5,6 +5,7 @@ description = "Infer the bioactivity of molecules using models trained on molecu
 authors = ["Aksel Lenes <aksel.lenes@irbbarcelona.org>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://gitlabsbnb.irbbarcelona.org/alenes/signaturizer3d"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.13"
