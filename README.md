@@ -27,7 +27,7 @@ target profiles, cellular response and clinical outcomes) and can be used as
 drop-in replacements for chemical descriptors in day-to-day chemoinformatics
 tasks.
 
-For and overview of the different bioctivity types available see the original Chemical
+For an overview of the different bioctivity types available see the original Chemical
  Checker [paper](https://www.nature.com/articles/s41587-020-0502-7) or [website](https://chemicalchecker.com/).
 ## Get started
 
