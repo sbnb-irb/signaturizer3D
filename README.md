@@ -85,15 +85,27 @@ have a look at the [example notebook](https://gitlabsbnb.irbbarcelona.org/packag
 ## Development
 Guidelines on how to set up the development environment and run tests.
 
-### Install dependencies locally
-Dependencies are managed via [poetry](https://python-poetry.org/). Install them with poetry by running this inside
-the project directory:
+### Install dependencies locally with Poetry
+Dependencies are managed via [poetry](https://python-poetry.org/). Poetry is a tool that does depencency management and packaging in Python, it allow us to declare what versions of our dependencies the project is compatible with. 
+Poetry is also a handy tool for making virtual environment with the project dependencies. 
+First, follow the documentation on how to install poetry [here](https://python-poetry.org/docs/#installation).
+Then using poetry, install the system dependencies with poetry by running this inside the project directory:
 ```shell
 poetry install
 ```
 
-Install pytorch (the project has been tested with pytorch 2.1). Pytorch needs to be installed outside poetry for now. Find the correct install
-command for your compute platform (CPU, GPU, ...) and install tool [on this page](https://pytorch.org/get-started/locally/).
+This will create a virtual environment with the project dependencies. The virtual environment can be activated in your current shell by running
+`poetry shell`, or you can run any command inside the virtual environment by prefixing it with `poetry run` fex you'd run the tests inside the
+virtual environment with `poetry run pytest`.
+
+Pytorch is the only dependency not managed by poetry. This means it needs to be installed manually in the virtual environment.
+Find the correct install command for your compute platform (CPU, GPU, ...) [on this page](https://pytorch.org/get-started/locally/).
+Run the install command inside the poetry environment by prefixing it with `poetry run` like this:
+```shell
+# Replace the install command if you're installing for a GPU
+poetry run pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+```
+The project has been tested with Pytorch 2.1
 
 ### Run tests
 Run all tests.
