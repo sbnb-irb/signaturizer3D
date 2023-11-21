@@ -86,7 +86,7 @@ have a look at the [example notebook](https://gitlabsbnb.irbbarcelona.org/packag
 Guidelines on how to set up the development environment and run tests.
 
 ### Install dependencies locally with Poetry
-Dependencies are managed via [poetry](https://python-poetry.org/). Poetry is a tool that does depencency management and packaging in Python, it allow us to declare what versions of our dependencies the project is compatible with. 
+Dependencies are managed via [poetry](https://python-poetry.org/). Poetry is a tool that does depencency management and packaging in Python, it allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
 Poetry is also a handy tool for making virtual environment with the project dependencies. 
 First, follow the documentation on how to install poetry [here](https://python-poetry.org/docs/#installation).
 Then using poetry, install the system dependencies with poetry by running this inside the project directory:
