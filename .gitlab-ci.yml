@@ -53,6 +53,6 @@ Publish:
   stage: publish
   script:
     - poetry config pypi-token.pypi $PYPI_TOKEN
-    - poetry publish --build --repository pypi
+    - poetry publish --build
   only:
     - tags
