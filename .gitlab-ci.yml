@@ -3,6 +3,7 @@ stages:
   - test
   - lint
   - publish-test
+  - publish
 
 variables:
   DOCKER_HOST: tcp://docker:2375
@@ -37,14 +38,21 @@ Lint:
   script:
     - poetry run black --check .
 
-Build and publish test:
+Publish test:
   image: $CONTAINER_TEST_IMAGE
   stage: publish-test
   script:
-    - poetry install
-    - poetry build
     - poetry config repositories.testpypi https://test.pypi.org/legacy/
     - poetry config pypi-token.testpypi $PYPI_TEST_TOKEN
-    - poetry publish --repository testpypi
+    - poetry publish --build --repository testpypi
+  only:
+    - tags
+
+Publish:
+  image: $CONTAINER_TEST_IMAGE
+  stage: publish
+  script:
+    - poetry config pypi-token.pypi $PYPI_TOKEN
+    - poetry publish --build --repository pypi
   only:
     - tags
