@@ -37,11 +37,9 @@ Create a virtual environment with Python 3.9 or higher.
 conda create -n sign3D-env python=3.10
 conda activate sign3D-env
 ```
-Install the package with pip (use PyPi test for now, as the package isn't published on PyPi yet)
+Install the package with pip
 ```shell
-pip install tqdm pandas rdkit-pypi chardet # Install package not published to test.pypi from pypi first
-pip install -i https://test.pypi.org/simple/ signaturizer3d
-# python -m pip install signaturizer3d # This will be the only command once the package is published to pypi
+python -m pip install signaturizer3d
 ```
 Install pytorch. Pytorch needs to be installed separately. Find the correct install
 command for your compute platform (CPU, GPU, ...) and install tool (pip, conda) [on this page](https://pytorch.org/get-started/locally/).
