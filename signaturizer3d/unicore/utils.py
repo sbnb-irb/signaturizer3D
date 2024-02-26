@@ -23,7 +23,7 @@ try:
 
     HAS_MULTI_TENSOR = True
 except:
-    logger.info("fused_multi_tensor is not installed corrected")
+    logger.debug("fused_multi_tensor cuda extension is not installed")
     HAS_MULTI_TENSOR = False
 
 try:
@@ -31,7 +31,7 @@ try:
 
     HAS_FUSED_ROUNDING = True
 except:
-    logger.info("fused_rounding is not installed corrected")
+    logger.debug("fused_rounding cuda extension is not installed")
     HAS_FUSED_ROUNDING = False
 
 if not torch.cuda.is_available() or torch.cuda.get_device_capability()[0] < 7:

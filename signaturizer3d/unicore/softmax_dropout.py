@@ -14,7 +14,7 @@ try:
 
     HAS_SOFTMAX = True
 except:
-    logger.info("fused_softmax is not installed corrected")
+    logger.debug("fused_softmax cuda extension is not installed")
     HAS_SOFTMAX = False
 
 if not torch.cuda.is_available() or torch.cuda.get_device_capability()[0] < 7:

@@ -17,7 +17,7 @@ try:
 
     HAS_LAYER_NORM = True
 except:
-    logger.info("fused_layer_norm is not installed corrected")
+    logger.debug("fused_layer_norm cuda extension is not installed")
     HAS_LAYER_NORM = False
 
 if not torch.cuda.is_available() or torch.cuda.get_device_capability()[0] < 7:
