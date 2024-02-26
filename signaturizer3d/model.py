@@ -40,8 +40,8 @@ class FineTunedUniMol(object):
             model_file_name = f"{self.space.name}_split0.pt"
         else:
             model_file_url = (
-                "https://github.com/aksell/test-pytorch-modelhub/releases/download/full-CC/"
-                + f"{self.space.name}_split0.pt"
+                "https://github.com/aksell/test-pytorch-modelhub/releases/download/full-CC-95/"
+                + f"{self.space.name}_split3.pt"
             )
 
         self.model = UniMolModel(
