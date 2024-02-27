@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "signaturizer3D"
-version = "0.1.5"
+version = "0.1.6"
 description = "Infer the bioactivity of molecules using models trained on molecular 3D structures."
 authors = ["Aksel Lenes <aksel.lenes@irbbarcelona.org>"]
 license = "MIT"
