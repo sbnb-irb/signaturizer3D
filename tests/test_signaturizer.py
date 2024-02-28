@@ -8,6 +8,7 @@ import pytest
 from signaturizer3d.signaturizer import Signaturizer
 from signaturizer3d.space import CCSpace
 
+
 @pytest.mark.skip(reason="Weights outdated")
 def test_sig_inference_from_coordinates(signaturizer, atoms_coords_sig_single):
     atoms_list, coordinates_list, expected_sig = atoms_coords_sig_single
