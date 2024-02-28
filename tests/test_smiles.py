@@ -1,6 +1,7 @@
 import numpy as np
 import pytest
 
+
 @pytest.mark.skip(reason="Weights outdated")
 def test_infer_from_smiles(signaturizer, signature_C):
     smiles, expected_sig = signature_C
