@@ -11,6 +11,7 @@
 *.yml filter=lfs diff=lfs merge=lfs -text
 /Dockerfile filter=lfs diff=lfs merge=lfs -text
 *.def filter=lfs diff=lfs merge=lfs -text
+/signaturizer3d/unimol/LICENSE filter=lfs diff=lfs merge=lfs -text
 *.md !text -filter -merge -diff
 * !text !filter !merge !diff
 *>100MB filter=lfs diff=lfs merge=lfs -text
