@@ -7,7 +7,6 @@
 
 <div align="center">
 <h3>Infer the bioactivity of molecules using models trained on molecular 3D structures</h3>
-<h3><strong>🚧 Under Development 🚧</strong></h3>
 </div>
 
 
@@ -22,10 +21,12 @@ traits of a molecule (fex its target profile) in a numerical vector
 format that is akin to the structural descriptors or fingerprints used in the
 field of chemoinformatics.
 
-The **signaturizer3D** models infer bioactivity in 25 bioactivity types (including
-target profiles, cellular response and clinical outcomes) and can be used as
-drop-in replacements for chemical descriptors in day-to-day chemoinformatics
-tasks.
+The **signaturizer3D** models infer bioactivity in 25 bioactivity types
+(including target profiles, cellular response and clinical outcomes) and can be
+used as drop-in replacements for chemical descriptors in day-to-day
+chemoinformatics tasks. See the
+[preprint](https://www.biorxiv.org/content/10.1101/2024.03.15.584974v1) for more
+information.
 
 For an overview of the different bioctivity types available see the original Chemical
  Checker [paper](https://www.nature.com/articles/s41587-020-0502-7) or [website](https://chemicalchecker.com/).
@@ -123,3 +124,5 @@ poetry run pytest -m 'performance'
 
 ### Documentation
 For more information about the package and unimol check out the [docs](docs/index.md)
+
+Signaturizer3D use the Uni-Mol architecture and pre-trained weights for fine tuning. See the Uni-Mol [article](https://openreview.net/forum?id=6K2RM6wVqKu) and [repo](https://github.com/dptech-corp/Uni-Mol) for more information.
