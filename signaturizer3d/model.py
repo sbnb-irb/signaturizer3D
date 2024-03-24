@@ -28,16 +28,16 @@ class FineTunedUniMol(object):
         space: CCSpace,
         remove_hs: bool = True,
         use_gpu: bool = True,
-        use_local_weights: bool = False,
+        local_weights_path: str = None,
     ):
         self.space = space
         self.device = torch.device(
             "cuda:0" if torch.cuda.is_available() and use_gpu else "cpu"
         )
 
-        model_file_name, model_file_url = None, None
-        if use_local_weights:
-            model_file_name = f"{self.space.name}_split0.pt"
+        model_file_path, model_file_url = None, None
+        if local_weights_path:
+            model_file_path = local_weights_path
         else:
             model_file_url = (
                 "https://github.com/aksell/test-pytorch-modelhub/releases/download/full-CC-95/"
@@ -45,7 +45,7 @@ class FineTunedUniMol(object):
             )
 
         self.model = UniMolModel(
-            model_file_name=model_file_name,
+            model_file_path=model_file_path,
             model_file_URL=model_file_url,
             classification_head_name=self.space.name,
             output_dim=128,
