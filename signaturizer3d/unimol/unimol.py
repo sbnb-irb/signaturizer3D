@@ -26,8 +26,6 @@ BACKBONE = {
     "transformer": TransformerEncoderWithPair,
 }
 
-WEIGHT_DIR = pathlib.Path(__file__).resolve().parents[2] / "weights"
-
 
 class UniMolModel(BaseUnicoreModel):
     def __init__(
@@ -35,13 +33,13 @@ class UniMolModel(BaseUnicoreModel):
         classification_head_name: str,
         remove_hs: bool,
         output_dim: int,
-        model_file_name: str = None,
+        model_file_path: str = None,
         model_file_URL: str = None,
     ):
         super().__init__()
         self.args = finetuned_architecture()
 
-        self.model_file_name = model_file_name
+        self.model_file_path = model_file_path
         self.classification_head_name = classification_head_name
         self.remove_hs = remove_hs
         self.output_dim = output_dim
@@ -75,7 +73,9 @@ class UniMolModel(BaseUnicoreModel):
         if self.args.kernel == "gaussian":
             self.gbf = GaussianLayer(K, n_edge_type)
         else:
-            raise ValueError("Current not support kernel: {}".format(self.args.kernel))
+            raise ValueError(
+                "Currently not supported kernel: {}".format(self.args.kernel)
+            )
 
         self.classification_heads = nn.ModuleDict()
         self.classification_heads[self.classification_head_name] = ClassificationHead(
@@ -87,13 +87,13 @@ class UniMolModel(BaseUnicoreModel):
         )
 
         self.apply(init_bert_params)
-        if model_file_name:
-            self.pretrain_path = (WEIGHT_DIR / self.model_file_name).as_posix()
+        if model_file_path:
+            self.pretrain_path = pathlib.Path(self.model_file_path).as_posix()
             self.load_pretrained_weights(path=self.pretrain_path)
         elif model_file_URL:
             self.download_and_load_pretrained_weights(model_file_URL)
         else:
-            raise ValueError("Please provide either model_file_name or model_file_URL")
+            raise ValueError("Please provide either model_file_path or model_file_URL")
 
     def load_pretrained_weights(self, path):
         logger.info(f"Loading pretrained weights from {path}")

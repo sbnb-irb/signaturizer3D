@@ -9,7 +9,7 @@ from signaturizer3d.space import CCSpace
 
 
 class Signaturizer:
-    def __init__(self, space: CCSpace):
+    def __init__(self, space: CCSpace, local_weights_path: str = None):
         if not isinstance(space, CCSpace):
             try:
                 space = CCSpace[space]
@@ -21,7 +21,9 @@ class Signaturizer:
 
         # Hydrogens are always removed as the signaturizers models are fine
         # tuned from the pre-trained UniMol model trained without hydrogens
-        self.model = FineTunedUniMol(space=self.space, remove_hs=True)
+        self.model = FineTunedUniMol(
+            space=self.space, remove_hs=True, local_weights_path=local_weights_path
+        )
 
     def infer_from_coordinates(
         self, atoms: List[str], coordinates: List[List[float]]
